@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /players/{uid} {
+      allow read: if true;
+      allow create, update: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['uid','name','level','realm','money','updatedAt'])
+        && request.resource.data.uid == uid
+        && request.resource.data.name is string && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 30
+        && request.resource.data.level is int && request.resource.data.level >= 1 && request.resource.data.level <= 10
+        && request.resource.data.realm is string && request.resource.data.realm.size() <= 80
+        && request.resource.data.money is number && request.resource.data.money >= 0
+        && request.resource.data.updatedAt == request.time;
+    }
+    match /saves/{uid} {
+      function owner() {
+        return request.auth != null && request.auth.uid == uid;
+      }
+      function validSave() {
+        let d = request.resource.data;
+        return d.keys().hasAll(['uid','version','payload','level','realm','realmIndex','money','clientUpdatedAt','updatedAt','lastSaveAt'])
+          && d.keys().hasOnly(['uid','version','payload','level','realm','realmIndex','money','clientUpdatedAt','updatedAt','lastSaveAt'])
+          && d.uid == uid && d.version == 1
+          && d.payload is string && d.payload.size() > 1 && d.payload.size() <= 200000
+          && d.level is int && d.level >= 1 && d.level <= 10
+          && d.realm is string && d.realm.size() > 0 && d.realm.size() <= 80
+          && d.realmIndex is int && d.realmIndex == d.level - 1
+          && d.money is number && d.money >= 0
+          && d.clientUpdatedAt is int && d.clientUpdatedAt >= 0
+          && d.updatedAt == request.time && d.lastSaveAt == request.time;
+      }
+      allow get: if owner();
+      allow list, delete: if false;
+      allow create: if owner() && validSave();
+      allow update: if owner() && validSave()
+        && request.resource.data.level >= resource.data.level
+        && request.resource.data.realmIndex >= resource.data.realmIndex
+        && request.time >= resource.data.lastSaveAt + duration.value(5, 's');
+    }
+  }
+}
