@@ -851,6 +851,13 @@ body,.screen{background-color:var(--bg)!important;color:var(--ink)!important}
 #pnttAccount h3:before{content:"✦ TIÊN MÔN ✦";display:block;font:700 12px system-ui;letter-spacing:.32em;color:#98772c;margin-bottom:12px}
 #pnttAccount label{display:block;margin:14px 0;font-weight:650}#pnttAccount input{padding:13px;border-radius:10px}#pnttAccount .note{font-size:13px;line-height:1.65}#pnttAuthMsg{color:#963b2d}#pnttAuthSubmit{min-height:44px}
 #boba-avatar{position:relative;color:#203b32}#boba-avatar summary,#boba-settings summary{cursor:pointer;padding:10px;font-weight:700}#boba-avatar[open]{background:#f6f7ed;border:1px solid #b29148;border-radius:12px}#boba-settings{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px;margin:12px 0}#boba-settings button{margin:5px}
+.screen{background-image:radial-gradient(ellipse at 80% 5%,#fff0b680,transparent 42%),linear-gradient(135deg,#def4eb80,#dceef580)!important}
+h1,#pnttAccount h3{ text-shadow:0 1px 0 #fff6cf,0 0 22px #dabc6255;animation:boba-aura 6s ease-in-out infinite alternate}
+#pnttAccount .pntt-box:after{content:"✦　·　✧　　·　✦";position:absolute;top:8px;right:14px;color:#ae812b;pointer-events:none;letter-spacing:5px;animation:boba-spirit 8s ease-in-out infinite alternate}
+.sbtn.pri:hover,#hbGo:hover{box-shadow:0 0 22px #e2ba58aa!important;filter:brightness(1.08)}
+@keyframes boba-aura{to{text-shadow:0 1px 0 #fff6cf,0 0 30px #e1b74599}}
+@keyframes boba-spirit{to{transform:translateY(-8px);opacity:.4}}
+@media(prefers-reduced-motion:reduce){h1,#pnttAccount h3,#pnttAccount .pntt-box:after{animation:none}}
 @keyframes boba-cloud{to{transform:translate(5%,-3%);opacity:.7}}
 @media(prefers-reduced-motion:reduce){#pnttAccount:after{animation:none}}
 </style>
