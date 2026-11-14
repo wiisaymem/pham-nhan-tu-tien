@@ -831,6 +831,39 @@ body.btn-edit #hud .act{outline:2px dashed rgba(227,181,90,.6);outline-offset:2p
 .q6,.tlg,.thd,.thd2{width:fit-content;max-width:100%;-webkit-text-fill-color:transparent;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .qs b.q6{color:#fff!important;-webkit-text-fill-color:#fff;background:linear-gradient(90deg,#ff5a5a,#ffd34a,#6fe08a,#6fc8ff,#c58cf0)!important;-webkit-background-clip:border-box;background-clip:border-box;text-shadow:0 1px 2px #000,0 0 2px #000;animation:none}
 </style>
+<!-- ===== BOBA UI PATCH v1 - START ===== -->
+<style id="boba-ui-v1">
+:root{--bg:#e4efe8;--panel:#f6f7ed;--panel2:#d9e8df;--line:#8ba99b;--ink:#203b32;--mute:#506c60;--hazard:#876014;--ok:#217653;--steel:#365f89;color-scheme:light}
+body,.screen{background-color:var(--bg)!important;color:var(--ink)!important}
+#hub .hb-shade{background:linear-gradient(180deg,#dcece6dd,#e9efe8aa 55%,#d4e4dbee)!important}
+#hub .hb-top,#hub .hb-tile,#hub .hb-dock,#hub .hb-map,#hub .hb-name,#hub .hb-season,#hub .hb-chatp,.wallet,fieldset,.brief,.inv>li,.pntt-modal .pntt-box{background:#f3f6ecf5!important;color:var(--ink)!important;border-color:var(--line)!important;box-shadow:0 6px 24px #234e3620}
+#hub .hb-who,#hub .hb-who small,#hub .hb-name small,#hub .hb-tile,#hub .hb-coin{color:var(--ink)!important;text-shadow:none!important}
+.note,.lede,.lbl{color:var(--mute)}
+.sbtn,.pntt-tools button,#boba-avatar button,#boba-settings button,[data-pane="board"]>#pnttTopOpen{background:#e3ece0!important;color:#284736!important;border:1px solid #8d9e73!important;border-radius:10px;padding:9px 13px}
+.sbtn.pri,#pnttAuthSubmit{background:linear-gradient(135deg,#a77a24,#e1c373)!important;color:#203629!important;font-weight:800}
+.pntt-modal .pntt-box h3{color:#805a18!important}.pntt-box input,#login input{background:#fffdf4!important;color:#203b32!important;border:1px solid #90ab99!important}
+#pnttAccount{isolation:isolate;overflow:auto;background:radial-gradient(ellipse at 72% 16%,#fff4bd 0,transparent 28%),linear-gradient(160deg,#b9dce2,#e5efe3 48%,#82b3a4)!important;padding:clamp(12px,3vw,40px);box-sizing:border-box}
+#pnttAccount:before,#pnttAccount:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1}
+#pnttAccount:before{background:linear-gradient(145deg,transparent 42%,#568c8099 42% 51%,transparent 51%),linear-gradient(215deg,transparent 48%,#315e6380 48% 60%,transparent 60%),linear-gradient(155deg,transparent 58%,#8cb4a8 58%);clip-path:polygon(0 35%,18% 15%,32% 42%,52% 10%,75% 40%,88% 22%,100% 36%,100% 100%,0 100%)}
+#pnttAccount:after{inset:-15%;background:radial-gradient(ellipse at 20% 65%,#ffffffd9,transparent 40%),radial-gradient(ellipse at 80% 80%,#effffaca,transparent 35%);animation:boba-cloud 22s ease-in-out infinite alternate}
+#pnttAccount .pntt-box{position:relative;width:min(560px,100%);margin:auto;border:2px solid #b29148!important;border-radius:24px;padding:clamp(20px,4vw,36px);background:linear-gradient(150deg,#fffdf3f5,#e9f3eaf2)!important;box-shadow:0 25px 80px #214e5a50,inset 0 0 0 5px #e3d4a74d}
+#pnttAccount h3{font:700 clamp(24px,5vw,34px) Georgia,serif;letter-spacing:.04em;margin-bottom:14px}
+#pnttAccount h3:before{content:"✦ TIÊN MÔN ✦";display:block;font:700 12px system-ui;letter-spacing:.32em;color:#98772c;margin-bottom:12px}
+#pnttAccount label{display:block;margin:14px 0;font-weight:650}#pnttAccount input{padding:13px;border-radius:10px}#pnttAccount .note{font-size:13px;line-height:1.65}#pnttAuthMsg{color:#963b2d}#pnttAuthSubmit{min-height:44px}
+#boba-avatar{position:relative;color:#203b32}#boba-avatar summary,#boba-settings summary{cursor:pointer;padding:10px;font-weight:700}#boba-avatar[open]{background:#f6f7ed;border:1px solid #b29148;border-radius:12px}#boba-settings{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px;margin:12px 0}#boba-settings button{margin:5px}
+@keyframes boba-cloud{to{transform:translate(5%,-3%);opacity:.7}}
+@media(prefers-reduced-motion:reduce){#pnttAccount:after{animation:none}}
+</style>
+<script>
+(function(){'use strict';function arrange(){try{const q=s=>document.querySelector(s);function group(id,label,parent){if(!parent)return null;let e=q('#'+id);if(!e){e=document.createElement('details');e.id=id;const title=document.createElement('summary');title.textContent=label;e.appendChild(title);parent.appendChild(e)}return e}function move(s,to){const e=q(s);if(e&&to&&e.parentElement!==to)to.appendChild(e)}
+move('#pnttTopOpen',q('[data-pane="board"]'));
+const avatar=group('boba-avatar','Nhân vật · Tài khoản',q('#hub .hb-top'));move('#pnttAccountOpen',avatar);
+const settings=group('boba-settings','Cài đặt',q('#lobby .wallet'));move('#btnEdGo',settings);move('#hbMus',settings);
+}catch(e){console.warn('BOBA UI v1: không thể sắp xếp giao diện')}}
+function start(){arrange();const observer=new MutationObserver(arrange);observer.observe(document.body,{childList:true,subtree:true});setTimeout(()=>observer.disconnect(),15000)}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();})();
+</script>
+<!-- ===== BOBA UI PATCH v1 - END ===== -->
 </head>
 <body>
 
